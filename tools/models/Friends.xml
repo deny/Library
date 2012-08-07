@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Friends>
+	<Friend>
+		<field name="name" 		type="string(80)" 	access="get,set" />
+		<field name="surname" 	type="string(80)" 	access="get,set" />
+	</Friend>
+	<Details component="Friend">
+		<field name="email" 	type="string(50)" 	access="get,set" />
+		<field name="phone" 	type="string(12)" 	access="get,set" />
+	</Details>
+</Friends>

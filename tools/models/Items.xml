@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Items>
+	<Item>
+		<field name="name"			type="string(128)"			access="get,set" />
+		<field name="category" 		type="Category" 			access="get,set" />
+		<field name="description"	type="string"				access="get,set" />
+		<field name="status"		type="enum(free,lent)"		access="get,set" />
+	</Item>
+	<Category>
+		<field name="name"			type="string(128)"			access="get,set" />
+	</Category>
+</Items>
