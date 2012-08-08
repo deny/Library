@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Items>
+<Items use="Friends">
 	<Item>
 		<field name="name"			type="string(128)"			access="get,set" />
 		<field name="category" 		type="Category" 			access="get,set" />
@@ -10,4 +10,10 @@
 	<Category>
 		<field name="name"			type="string(128)"			access="get,set" />
 	</Category>
+	<Borrow>
+		<field name="item"			type="Item"					access="get,set" />
+		<field name="friend"		type="Friends:Friend"		access="get,set" />
+		<field name="start"			type="int"					access="get,set" />
+		<field name="end"			type="int"					access="get,set" />
+	</Borrow>
 </Items>

@@ -1,0 +1,36 @@
+<form method="post" action="">
+<?php if(!$this->bEdit): ?>
+	<fieldset>
+
+	</fieldset>
+<?php endif; ?>
+	<fieldset>
+	<?php $sField = 'name'; echo $this->formField(
+		'Name',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'category'; echo $this->formField(
+		'Category',
+		$sField,
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\CategoryFactory::getInstance()->getList('c_id', 'c_id'))
+	)?>
+	<?php $sField = 'description'; echo $this->formField(
+		'Description',
+		$sField,
+		$this->formTextarea($sField, $this->formValue($sField), array('rows' => 5))
+	)?>
+	<?php $sField = 'status'; echo $this->formField(
+		'Status',
+		$sField,
+		$this->formSelect($sField, $this->formValue($sField), null, array(
+			'free'	=> 'free',
+			'lent'	=> 'lent'))
+	)?>
+
+	</fieldset>
+	<fieldset>
+		<button type="submit">save</button>
+		<a href="<?php echo $this->getUrl([], 'list') ?>">cancel</a>
+	</fieldset>
+</form>

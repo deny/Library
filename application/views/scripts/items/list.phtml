@@ -1,0 +1,38 @@
+<table>
+	<thead>
+		<tr>
+			<td><?php echo $this->sortLink('id') ?></td>
+			<td><?php echo $this->sortLink('name') ?></td>
+			<td><?php echo $this->sortLink('category') ?></td>
+			<td>description</td>
+			<td><?php echo $this->sortLink('status') ?></td>
+			<td>actions</td>
+		</tr>
+	</thead>
+	<tbody>
+
+<?php foreach($this->oPaginator as $oItem): ?>
+		<tr>
+			<td><?php echo $oItem->getId() ?></td>
+			<td><?php echo $oItem->getName() ?></td>
+			<td><?php echo $oItem->getCategoryId() ?></td>
+			<td><?php echo $this->trimText($oItem->getDescription(), 15) ?></td>
+			<td><?php echo $oItem->getStatus() ?></td>
+			<td>
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'edit') ?>">edit</a> |
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>
+				<a href="<?php echo $this->getUrl([], 'add') ?>">+ add</a>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<?php echo $this->paginator($this->oPaginator);?>

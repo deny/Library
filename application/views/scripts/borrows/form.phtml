@@ -1,0 +1,34 @@
+<form method="post" action="">
+<?php if(!$this->bEdit): ?>
+	<fieldset>
+
+	</fieldset>
+<?php endif; ?>
+	<fieldset>
+	<?php $sField = 'item'; echo $this->formField(
+		'Item',
+		$sField,
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\ItemFactory::getInstance()->getList('i_id', 'i_id'))
+	)?>
+	<?php $sField = 'friend'; echo $this->formField(
+		'Friend',
+		$sField,
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'f_id'))
+	)?>
+	<?php $sField = 'start'; echo $this->formField(
+		'Start',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'end'; echo $this->formField(
+		'End',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+
+	</fieldset>
+	<fieldset>
+		<button type="submit">save</button>
+		<a href="<?php echo $this->getUrl([], 'list') ?>">cancel</a>
+	</fieldset>
+</form>

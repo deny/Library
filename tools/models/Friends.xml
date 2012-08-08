@@ -4,9 +4,16 @@
 	<Friend>
 		<field name="name" 		type="string(80)" 	access="get,set" />
 		<field name="surname" 	type="string(80)" 	access="get,set" />
+		<field name="details" 	type="Details" 		access="get" />
 	</Friend>
-	<Details component="Friend">
+	<Details componentof="Friend">
 		<field name="email" 	type="string(50)" 	access="get,set" />
 		<field name="phone" 	type="string(12)" 	access="get,set" />
+		<field name="city"		type="string(80)" 	access="get,set" />
+		<field name="address" 	type="string(120)" 	access="get,set" />
 	</Details>
+	<Group>
+		<field name="name" 		type="string(80)" 	access="get,set" />
+		<field name="peoples"	type="Friend(*)"	access="get,set" />
+	</Group>
 </Friends>

@@ -1,0 +1,34 @@
+<form method="post" action="">
+<?php if(!$this->bEdit): ?>
+	<fieldset>
+
+	</fieldset>
+<?php endif; ?>
+	<fieldset>
+	<?php $sField = 'email'; echo $this->formField(
+		'Email',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'phone'; echo $this->formField(
+		'Phone',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'city'; echo $this->formField(
+		'City',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'address'; echo $this->formField(
+		'Address',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+
+	</fieldset>
+	<fieldset>
+		<button type="submit">save</button>
+		<a href="<?php echo $this->getUrl([], 'list') ?>">cancel</a>
+	</fieldset>
+</form>

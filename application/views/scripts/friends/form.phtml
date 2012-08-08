@@ -1,0 +1,24 @@
+<form method="post" action="">
+<?php if(!$this->bEdit): ?>
+	<fieldset>
+
+	</fieldset>
+<?php endif; ?>
+	<fieldset>
+	<?php $sField = 'name'; echo $this->formField(
+		'Name',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+	<?php $sField = 'surname'; echo $this->formField(
+		'Surname',
+		$sField,
+		$this->formText($sField, $this->formValue($sField))
+	)?>
+
+	</fieldset>
+	<fieldset>
+		<button type="submit">save</button>
+		<a href="<?php echo $this->getUrl([], 'list') ?>">cancel</a>
+	</fieldset>
+</form>

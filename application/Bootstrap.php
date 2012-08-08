@@ -15,6 +15,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}
 
 	/**
+	 * Inne opjce
+	 */
+	protected function _initOptions()
+	{
+		Zend_Controller_Action_HelperBroker::addPrefix('Sca_Controller_Action_Helper'); // Action Helpery
+	}
+
+	/**
 	 * Przerzucanie resource do rejestru
 	 */
 	protected function _initResources()
