@@ -41,25 +41,6 @@ trait DetailsFactory
 
 // FACTORY METHODS
 
-	public function getForUser($oUser)
-	{
-		$aDbRes = $this->getSelect()
-						->where('fcd_id = ?', $oUser->getId())
-						->limit(1)->query()->fetchAll();
-
-		$oResult = $this->buildElement();
-
-		if(empty($aDbRes))
-		{
-			$oResult->initDefault($oUser);
-		}
-		else
-		{
-			$oResult->init($aDbRes[0]);
-		}
-
-		return $oResult;
-	}
 
 
 // OTHER

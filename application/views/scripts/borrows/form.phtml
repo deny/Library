@@ -8,12 +8,12 @@
 	<?php $sField = 'item'; echo $this->formField(
 		'Item',
 		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\ItemFactory::getInstance()->getList('i_id', 'i_id'))
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\ItemFactory::getInstance()->getList('i_id', 'CONCAT(i_name, i_id)'))
 	)?>
 	<?php $sField = 'friend'; echo $this->formField(
 		'Friend',
 		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'f_id'))
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'f_name'))
 	)?>
 	<?php $sField = 'start'; echo $this->formField(
 		'Start',

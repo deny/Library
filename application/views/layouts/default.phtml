@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="Lorem ipsum" />
+	<meta name="keywords" content="Lorem ipsum" />
+
+	<title>Library</title>
+
+	<link rel="stylesheet" href="/css/reset.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+
+	<script src="/js/cufon/yui.js" type="text/javascript"></script>
+	<script src="/js/cufon/font.js" type="text/javascript"></script>
+	<script src="/js/cufon/config.js" type="text/javascript"></script>
+
+</head>
+<body>
+	<header>
+		<h1><a href="/">Library</a></h1>
+
+		<ul class="menu">
+			<li class="separator">Borrows</li>
+			<li><a href="/borrows/list">list</a></li>
+			<li class="separator">Friends</li>
+			<li><a href="/friends/list">list</a></li>
+			<li><a href="/groups/list">groups</a></li>
+			<li class="separator">Items</li>
+			<li><a href="/items/list">list</a></li>
+			<li><a href="/Categories/list">categories</a></li>
+		</ul>
+	</header>
+	<div class="page-wrapper">
+		<?php echo $this->layout()->content; ?>
+	</div>
+	<footer>
+		<p>Copyright &copy; Daniel Kózka 2012</p>
+	</footer>
+</body>
+</html>

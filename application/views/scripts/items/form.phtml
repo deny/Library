@@ -1,3 +1,7 @@
+<h2 class="webfont">
+	<a href="/items/list">Items >> list >> <?php echo $this->bEdit ? 'edit' : 'new' ?></a>
+</h2>
+
 <form method="post" action="">
 <?php if(!$this->bEdit): ?>
 	<fieldset>
@@ -13,7 +17,7 @@
 	<?php $sField = 'category'; echo $this->formField(
 		'Category',
 		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\CategoryFactory::getInstance()->getList('c_id', 'c_id'))
+		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\CategoryFactory::getInstance()->getList('c_id', 'c_name'))
 	)?>
 	<?php $sField = 'description'; echo $this->formField(
 		'Description',

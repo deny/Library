@@ -51,7 +51,7 @@ trait Friend
 		{
 			$this->oDetails = $aRow['_details'] ?
 									$aRow['_details'] :
-									(new \Model\Friends\Details())->initDefault($this);
+									(new \Model\Friends\Details())->initComponent($this);
 		}
 
 
@@ -92,7 +92,7 @@ trait Friend
 			}
 			catch(\Sca\DataObject\Exception $oExc) // no data - create default object
 			{
-				$this->oDetails = (new \Model\Friends\Details())->initDefault($this);
+				$this->oDetails = (new \Model\Friends\Details())->initComponent($this);
 			}
 		}
 

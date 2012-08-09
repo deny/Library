@@ -65,7 +65,7 @@ trait Details
 	 *
 	 * @param	\Model\Friends\Friend	$oOwner	owner
 	 */
-	public function initDefault(\Model\Friends\Friend $oOwner)
+	public function initComponent(\Model\Friends\Friend $oOwner)
 	{
 		$aComponents = [self::info()];
 		$aTmp = [
