@@ -163,10 +163,10 @@ class FriendsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-				
+
 			],
 			'surname' => [
-				
+
 			]
 		];
 

@@ -1,12 +1,12 @@
 <?php if($this->code == 404): ?>
-  <h1>404</h1>
-  <h2>Podana strona nie została odnaleziona</h2>
+  <h1 class="center">404</h1>
+  <h2 class="webfont">Page not found</h2>
 <?php elseif($this->code == 403): ?>
   <h1>403</h1>
-  <h2>Niestety, ale nie masz dostępu do tej strony</h2>
+  <h2>Access deny</h2>
 <?php else: ?>
   <h1>500</h1>
-  <h2>Ups, coś poszło nie tak. Spróbuj ponownie później</h2>
+  <h2>Ups! Application error</h2>
 <?php endif; ?>
 
 <?php if(isset($this->exception)): ?>

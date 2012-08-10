@@ -1,12 +1,14 @@
 
-a {text-decoration: none;}
+a {color: #1A421A; text-decoration: none;}
+a:hover {text-decoration: underline;}
 
 body {
     font-family: sans-serif;
-    background: #BDE59C;
+    background: #ddffdd;
     width: 970px;
     margin: 0 auto;
 }
+/* @group =header */
 header {
     background: #3a3;
     margin-top: 20px;
@@ -51,12 +53,21 @@ header ul li a {
 header ul li a:hover {
     background: #417241;
 }
+/* @end =header */
+/* @group =content */
 .page-wrapper {
+    background: #BDE59C;
     padding: 20px;
     border: 1px solid black;
     -moz-box-shadow: 0px 0px 30px #444;
     -webkit-box-shadow: 0px 0px 30px #444;
     box-shadow: 0px 0px 30px #444;
+}
+.page-wrapper h1 {
+    text-align: center;
+    font-size: 45px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 .page-wrapper h2 {
     text-align: center;
@@ -66,20 +77,77 @@ header ul li a:hover {
 .page-wrapper h2 a {
     color: #333;
 }
-.page-wrapper table {
+/* @group =content =messenger */
+.messenger {
+    background: #AABBCC;
+    margin: -20px -20px 0;
+    padding: 5px 10px;
+    text-align: center;
+}
+.messenger.msg-error {
+    background: #DB729A;
+}
+/* @end =content =messenger */
+/* @group =content =table */
+table {
     text-align: center;
     margin: 0 auto;
 }
-.page-wrapper table tr td {
+table tr td {
     padding: 4px 10px;
     border: 1px solid black;
 }
-.page-wrapper table thead tr td {
+table thead tr td, table thead tr td a {
     background: #8a8;
 }
-.page-wrapper table tfoot tr td {
-    border: none;
+table thead tr td a.sca-sl-current.desc:after {
+    content: '↓';
 }
+table thead tr td a.sca-sl-current.asc:after {
+    content: '↑';
+}
+table tbody tr td {
+    background: #ddd;
+}
+table tfoot tr td {
+    border: none;
+    background: none;
+}
+.sca-sl-current {
+    text-decoration: underline;
+}
+/* @end =content =table */
+/* @begin =content =pagiantor */
+.paginator {
+    text-align: center;
+}
+.paginator span {
+    margin: 0 5px;
+}
+/* @end =content =pagiantor */
+/* @group =content =form */
+form {
+    margin-left: 200px;
+}
+form .field {
+    margin-bottom: 10px;
+}
+form input, form textarea, form select {
+    margin-left: 30px;
+}
+form .error-list {
+    margin-left: 30px;
+    list-style: none;
+    padding: 5px;
+    background: #FFA8A8;
+    display: table;
+}
+form .error-list li {
+    display: block;
+}
+/* @end =content =form */
+/* @end =content */
+/* @group =foot */
 footer {
     text-align: center;
     margin-top: 5px;
@@ -88,3 +156,4 @@ footer p, footer a {
     display: inline;
     font-size: 13px;
 }
+/* @end =foot */
