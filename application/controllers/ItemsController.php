@@ -56,7 +56,7 @@ class ItemsController extends Sca_Controller_Action
 		}
 
 	// get paginator
-		$oPaginator = $this->getPaginator($iPage, $sDbSort);
+		$oPaginator = $this->getPaginator($iPage, $sDbSort, ['category']);
 
 	// set view
 		$this->view->assign('oPaginator', $oPaginator);
@@ -88,7 +88,7 @@ class ItemsController extends Sca_Controller_Action
 					$aData['name'],
 					$aData['category'],
 					$aData['description'],
-					$aData['status']
+					\Model\Items\Item::STATUS_FREE
 				);
 
 				$this->addMessage('Item successful added', self::MSG_OK);
@@ -122,7 +122,6 @@ class ItemsController extends Sca_Controller_Action
 				$oItem->setName($aData['name']);
 				$oItem->setCategoryId($aData['category']);
 				$oItem->setDescription($aData['description']);
-				$oItem->setStatus($aData['status']);
 				$oItem->save();
 
 				$this->addMessage('Item successful changed', self::MSG_OK);
@@ -170,16 +169,13 @@ class ItemsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-				
+
 			],
 			'category' => [
-				
+
 			],
 			'description' => [
-				
-			],
-			'status' => [
-				
+
 			]
 		];
 

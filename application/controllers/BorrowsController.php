@@ -9,8 +9,8 @@ class BorrowsController extends Sca_Controller_Action
 	 */
 	protected $aAllowSort = [
 		'id' => 'b_id',
-		'item' => 'b_item',
-		'friend' => 'b_friend',
+		'item' => 'i_name',
+		'friend' => 'CONCAT(f_name, " ", f_surname)',
 		'start' => 'b_start',
 		'end' => 'b_end',
 
@@ -57,7 +57,7 @@ class BorrowsController extends Sca_Controller_Action
 		}
 
 	// get paginator
-		$oPaginator = $this->getPaginator($iPage, $sDbSort);
+		$oPaginator = $this->getPaginator($iPage, $sDbSort, ['friend','item']);
 
 	// set view
 		$this->view->assign('oPaginator', $oPaginator);
@@ -70,10 +70,27 @@ class BorrowsController extends Sca_Controller_Action
 	}
 
 	/**
-	 * Adds item to db
+	 * Borrow item
 	 */
-	public function addAction()
+	public function borrowAction()
 	{
+		try
+		{
+			$iId = $this->_request->getParam('id', 0);
+			$oItem = \Model\Items\ItemFactory::getInstance()->getOne($iId);
+
+			if($oItem->getStatus() == \Model\Items\Item::STATUS_BORROWED)
+			{
+				$this->addMessage('Item is borrowed', self::MSG_ERROR);
+				$this->_redirect('/items/list');
+				exit();
+			}
+		}
+		catch(Exception $oExc)
+		{
+			$this->moveTo404();
+		}
+
 		$this->_helper->viewRenderer('form');
 		$this->view->assign('bEdit', false);
 
@@ -86,13 +103,16 @@ class BorrowsController extends Sca_Controller_Action
 				$aData = $oFilter->getEscaped();
 
 				$this->oFactory->create(
-					$aData['item'],
+					$oItem->getId(),
 					$aData['friend'],
-					$aData['start'],
-					$aData['end']
+					strtotime($aData['date']),
+					null
 				);
 
-				$this->addMessage('Item successful added', self::MSG_OK);
+				$oItem->setStatus(\Model\Items\Item::STATUS_BORROWED);
+				$oItem->save();
+
+				$this->addMessage('Item successful borrowed', self::MSG_OK);
 				$this->_redirect($this->getUrl([], 'list'));
 				exit();
 			}
@@ -103,14 +123,31 @@ class BorrowsController extends Sca_Controller_Action
 	}
 
 	/**
-	 * Edit item
+	 * Return item
 	 */
-	public function editAction()
+	public function returnAction()
 	{
+		try
+		{
+			$iId = $this->_request->getParam('id', 0);
+			$oBorrowItem = \Model\Items\ItemFactory::getInstance()->getOne($iId);
+
+			if($oBorrowItem->getStatus() == \Model\Items\Item::STATUS_FREE)
+			{
+				$this->addMessage('Item is not borrowed', self::MSG_ERROR);
+				$this->_redirect('/items/list');
+				exit();
+			}
+
+			$oItem = $this->oFactory->getLastForItem($oBorrowItem);
+		}
+		catch(Exception $oExc)
+		{
+			$this->moveTo404();
+		}
+
 		$this->_helper->viewRenderer('form');
 		$this->view->assign('bEdit', true);
-
-		$oItem = $this->getItem();
 
 		if($this->_request->isPost())
 		{
@@ -120,28 +157,19 @@ class BorrowsController extends Sca_Controller_Action
 			{
 				$aData = $oFilter->getEscaped();
 
-				$oItem->setItemId($aData['item']);
-				$oItem->setFriendId($aData['friend']);
-				$oItem->setStart($aData['start']);
-				$oItem->setEnd($aData['end']);
+				$oItem->setEnd(strtotime($aData['date']));
 				$oItem->save();
 
-				$this->addMessage('Item successful changed', self::MSG_OK);
+				$oBorrowItem->setStatus(\Model\Items\Item::STATUS_FREE);
+				$oBorrowItem->save();
+
+				$this->addMessage('Item successful returned', self::MSG_OK);
 				$this->_redirect($this->getUrl([], 'list'));
 				exit();
 			}
 
 			$this->addMessage('Correct wrong fields', self::MSG_ERROR);
 			$this->showFormMessages($oFilter);
-		}
-		else
-		{
-			$this->view->assign('aValues', [
-				'item' => $oItem->getItemId(),
-				'friend' => $oItem->getFriendId(),
-				'start' => $oItem->getStart(),
-				'end' => $oItem->getEnd()
-			]);
 		}
 	}
 
@@ -170,23 +198,27 @@ class BorrowsController extends Sca_Controller_Action
 
     	// validators
 		$aValidators = [
-			'item' => [
-				
-			],
-			'friend' => [
-				
-			],
-			'start' => [
-				
-			],
-			'end' => [
-				
+			'date' => [
+				new Zend_Validate_Date(['format' => 'Y-m-d'])
 			]
 		];
 
 		if(!$bEdit) // if add
 		{
+			$aValidators['friend'] = [
+				new Zend_Validate_Callback(function($iId) {
 
+					try
+					{
+						\Model\Friends\FriendFactory::getInstance()->getOne($iId);
+						return true;
+					}
+					catch(Exception $oExc) {
+						return false;
+					}
+
+				})
+			];
 		}
 
 		$aFitlers = [

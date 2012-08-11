@@ -1,3 +1,7 @@
+<h2 class="webfont">
+	<a href="/borrows/list">Borrows >> list</a>
+</h2>
+
 <table>
 	<thead>
 		<tr>
@@ -14,25 +18,17 @@
 <?php foreach($this->oPaginator as $oItem): ?>
 		<tr>
 			<td><?php echo $oItem->getId() ?></td>
-			<td><?php echo $oItem->getItemId() ?></td>
-			<td><?php echo $oItem->getFriendId() ?></td>
-			<td><?php echo $oItem->getStart() ?></td>
-			<td><?php echo $oItem->getEnd() ?></td>
+			<td><?php echo $oItem->getItem()->getName() ?></td>
+			<td><?php echo $oItem->getFriend()->getFullName() ?></td>
+			<td><?php echo $oItem->getStart() === null ? '' : date('Y-m-d', $oItem->getStart()) ?></td>
+			<td><?php echo $oItem->getEnd() === null ? '' : date('Y-m-d', $oItem->getEnd()) ?></td>
 			<td>
-				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'edit') ?>">edit</a> |
 				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a>
 			</td>
 		</tr>
 <?php endforeach; ?>
 
 	</tbody>
-	<tfoot>
-		<tr>
-			<td>
-				<a href="<?php echo $this->getUrl([], 'add') ?>">+ add</a>
-			</td>
-		</tr>
-	</tfoot>
 </table>
 
 <?php echo $this->paginator($this->oPaginator);?>

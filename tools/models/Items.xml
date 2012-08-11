@@ -5,7 +5,7 @@
 		<field name="name"			type="string(128)"			access="get,set" />
 		<field name="category" 		type="Category" 			access="get,set" />
 		<field name="description"	type="string"				access="get,set" />
-		<field name="status"		type="enum(free,lent)"		access="get,set" />
+		<field name="status"		type="enum(free,borrowed)"	access="get,set" />
 	</Item>
 	<Category>
 		<field name="name"			type="string(128)"			access="get,set" />

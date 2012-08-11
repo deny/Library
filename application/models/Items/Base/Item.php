@@ -11,7 +11,7 @@ namespace Model\Items\Base;
 trait Item
 {
 	// CONST STATUS_FREE = 'free';
-	// CONST STATUS_LENT = 'lent';
+	// CONST STATUS_BORROWED = 'borrowed';
 
 
 

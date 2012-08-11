@@ -3,7 +3,7 @@ CREATE TABLE `item` (
 	`i_name` VARCHAR(128),
 	`i_category` INT(10) UNSIGNED,
 	`i_description` TEXT,
-	`i_status` ENUM("free","lent"),
+	`i_status` ENUM("free","borrowed"),
 	PRIMARY KEY(`i_id`)
 ) ENGINE=InnoDB;
 CREATE TABLE `category` (

@@ -1,29 +1,36 @@
+<?php
+	$this->headLink()->appendStylesheet('/css/ui/south-street/style.css');
+
+	$this->headScript()->appendFile('/js/jquery.min.js')
+						->appendFile('/js/jquery.ui.core.js')
+						->appendFile('/js/jquery.ui.datePicker.js')
+						->appendFile('/js/date.js');
+?>
+<h2 class="webfont">
+	<a href="/borrows/list">Borrows >> list >> <?php echo $this->bEdit ? 'return' : 'borrow' ?></a>
+</h2>
+
 <form method="post" action="">
 <?php if(!$this->bEdit): ?>
 	<fieldset>
-
+		<?php $sField = 'friend'; echo $this->formField(
+			'Friend',
+			$sField,
+			$this->formSelect($sField, $this->formValue($sField), null, array('' => '-- choose --') +  \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'CONCAT(f_name, " ", f_surname)'))
+		)?>
 	</fieldset>
 <?php endif; ?>
 	<fieldset>
-	<?php $sField = 'item'; echo $this->formField(
-		'Item',
+
+	<?php $sField = 'date'; echo $this->formField(
+		$this->bEdit ? 'return date' : 'borrow date',
 		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\ItemFactory::getInstance()->getList('i_id', 'CONCAT(i_name, i_id)'))
-	)?>
-	<?php $sField = 'friend'; echo $this->formField(
-		'Friend',
-		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'f_name'))
-	)?>
-	<?php $sField = 'start'; echo $this->formField(
-		'Start',
-		$sField,
-		$this->formText($sField, $this->formValue($sField))
-	)?>
-	<?php $sField = 'end'; echo $this->formField(
-		'End',
-		$sField,
-		$this->formText($sField, $this->formValue($sField))
+		$this->formText($sField, $this->formValue($sField)),
+		[
+			'fieldAttr' => [
+				'class' => 'field date'
+			]
+		]
 	)?>
 
 	</fieldset>
