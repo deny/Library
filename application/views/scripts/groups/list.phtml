@@ -16,7 +16,8 @@
 			<td><?php echo $oItem->getName() ?></td>
 			<td>
 				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'edit') ?>">edit</a> |
-				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a>
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a> |
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'edit-list') ?>">peoples</a>
 			</td>
 		</tr>
 <?php endforeach; ?>

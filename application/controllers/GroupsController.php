@@ -146,6 +146,77 @@ class GroupsController extends Sca_Controller_Action
 		$this->_redirect($this->getUrl([], 'list'));
 	}
 
+// GROUP PEOPLES
+	/**
+	 * Edit group peoples
+	 */
+	public function editListAction()
+	{
+		$oItem = $this->getItem();
+
+		$aFriends = \Model\Friends\FriendFactory::getInstance()->getList('f_id', 'CONCAT(f_name, " ", f_surname)');
+
+		foreach($oItem->getPeoples() as $oPeople)
+		{
+			unset($aFriends[$oPeople->getId()]);
+		}
+
+		$this->view->assign('oGroup', $oItem);
+		$this->view->assign('aFriends', $aFriends);
+	}
+
+	/**
+	 * Delete item
+	 */
+	public function addPeopleAction()
+	{
+		if(!$this->_request->isPost())
+		{
+			$this->moveTo404();
+		}
+
+		$oItem = $this->getItem();
+
+		try
+		{
+			$iId = $this->_request->getParam('friend', 0);
+			$oFriend = \Model\Friends\FriendFactory::getInstance()->getOne($iId);
+		}
+		catch(Exception $oExc)
+		{
+			$this->_redirect('/groups/edit-list/id/'. $oItem->getId());
+			exit();
+		}
+
+		$this->oFactory->addToGroup($oItem, $oFriend);
+
+		$this->_redirect($this->getUrl(['id' => $oItem->getId()], 'edit-list'));
+	}
+
+	/**
+	 * Delete item
+	 */
+	public function deletePeopleAction()
+	{
+		$oItem = $this->getItem();
+
+		try
+		{
+			$iId = $this->_request->getParam('uid', 0);
+			$oFriend = \Model\Friends\FriendFactory::getInstance()->getOne($iId);
+		}
+		catch(Exception $oExc)
+		{
+			$this->moveTo404();
+		}
+
+		$this->oFactory->delFromGroup($oItem, $oFriend);
+
+		$this->_redirect($this->getUrl(['id' => $oItem->getId()], 'edit-list'));
+	}
+
+// OTHER
+
 	/**
 	 * Return filter
 	 *
@@ -159,14 +230,9 @@ class GroupsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-				
+				new Zend_Validate_StringLength(['max' => 80])
 			]
 		];
-
-		if(!$bEdit) // if add
-		{
-
-		}
 
 		$aFitlers = [
 			'*' => 'StringTrim'

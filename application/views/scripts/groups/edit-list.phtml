@@ -1,0 +1,39 @@
+<h2 class="webfont"><a href="/groups/list">Friends >> groups >> peoples</a></h2>
+
+<table>
+	<thead>
+		<tr>
+			<td>friends</td>
+			<td>actions</td>
+		</tr>
+	</thead>
+	<tbody>
+
+<?php foreach($this->oGroup->getPeoples() as $oItem): ?>
+		<tr>
+			<td><?php echo $oItem->getFullName() ?></td>
+			<td>
+				<a href="<?php echo $this->getUrl(['id' => $this->oGroup->getId(), 'uid' => $oItem->getId()], 'delete-people') ?>">del</a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>
+				<form class="inline" method="post" action="/groups/add-people/id/<?php echo $this->oGroup->getId() ?>">
+					<fieldset>
+						<?php $sField = 'friend'; echo $this->formField(
+							'',
+							$sField,
+							$this->formSelect($sField, null, null, array('' => '-- choose --') +  $this->aFriends),
+							['labelSep' => '']
+						)?>
+						<button type="submit">add</button>
+					</fieldset>
+				</form>
+			</td>
+		</tr>
+	</tfoot>
+</table>

@@ -17,7 +17,7 @@
 	<?php $sField = 'category'; echo $this->formField(
 		'Category',
 		$sField,
-		$this->formSelect($sField, $this->formValue($sField), null, \Model\Items\CategoryFactory::getInstance()->getList('c_id', 'c_name'))
+		$this->formSelect($sField, $this->formValue($sField), null, ['' => '-- choose --'] + \Model\Items\CategoryFactory::getInstance()->getList('c_id', 'c_name'))
 	)?>
 	<?php $sField = 'description'; echo $this->formField(
 		'Description',

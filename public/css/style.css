@@ -145,6 +145,14 @@ form .error-list {
 form .error-list li {
     display: block;
 }
+form.inline {
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+form.inline .field, form.inline input, form.inline button {
+    display: inline;
+    float: none;
+}
 /* @end =content =form */
 /* @end =content */
 /* @group =foot */

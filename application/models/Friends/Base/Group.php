@@ -44,7 +44,7 @@ trait Group
 
 		if(isset($aRow['_peoples']))
 		{
-			$this->oPeoples = $aRow['_peoples'];
+			$this->aPeoples = $aRow['_peoples'];
 		}
 
 
@@ -68,12 +68,12 @@ trait Group
 	 */
 	public function getPeoples()
 	{
-		if(!isset($this->oPeoples))
+		if(!isset($this->aPeoples))
 		{
-			$this->oPeoples = \Model\Friends\FriendFactory::getInstance()->getGroupPeoples($this->getId());
+			$this->aPeoples = \Model\Friends\FriendFactory::getInstance()->getGroupPeoples($this->getId());
 		}
 
-		return $this->oPeoples;
+		return $this->aPeoples;
 	}
 
 

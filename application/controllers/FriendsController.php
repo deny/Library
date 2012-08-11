@@ -163,17 +163,12 @@ class FriendsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-
+				new Zend_Validate_StringLength(['max' => 80])
 			],
 			'surname' => [
-
+				new Zend_Validate_StringLength(['max' => 80])
 			]
 		];
-
-		if(!$bEdit) // if add
-		{
-
-		}
 
 		$aFitlers = [
 			'*' => 'StringTrim'

@@ -18,6 +18,7 @@
 			<td><?php echo $oItem->getSurname() ?></td>
 			<td>
 				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'edit') ?>">edit</a> |
+				<a href="/details/edit/id/<?php echo $oItem->getId() ?>">edit details</a> |
 				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a>
 			</td>
 		</tr>

@@ -159,14 +159,9 @@ class CategoriesController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-				
+				new Zend_Validate_StringLength(['max' =>128])
 			]
 		];
-
-		if(!$bEdit) // if add
-		{
-
-		}
 
 		$aFitlers = [
 			'*' => 'StringTrim'

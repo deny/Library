@@ -3,20 +3,6 @@
 class DetailsController extends Sca_Controller_Action
 {
 	/**
-	 * Allowed sort types
-	 *
-	 * @var	array
-	 */
-	protected $aAllowSort = [
-		'id' => 'fcd_id',
-		'email' => 'fcd_email',
-		'phone' => 'fcd_phone',
-		'city' => 'fcd_city',
-		'address' => 'fcd_address',
-
-	];
-
-	/**
 	 * Init
 	 */
 	public function init()
@@ -31,84 +17,11 @@ class DetailsController extends Sca_Controller_Action
 	}
 
 	/**
-	 * Display items list
-	 */
-	public function listAction()
-	{
-	// page number
-		$iPage = $this->_request->getParam('page', 1);
-		if($iPage < 1)
-		{
-			$this->moveTo404();
-		}
-
-	// sort
-		$sSort = $this->_request->getParam('sort');
-		$sDbSort = current($this->aAllowSort) . ' ASC';
-		$aUsedSort = array(0,0);
-		if(!empty($sSort))
-		{
-			$aSort = explode(':', $sSort);
-			if(count($aSort) == 2 && isset($this->aAllowSort[$aSort[0]]))
-			{
-				$sDbSort = $this->aAllowSort[$aSort[0]] . ($aSort[1] == 'desc' ? ' DESC' : ' ASC');
-				$aUsedSort = $aSort;
-			}
-		}
-
-	// get paginator
-		$oPaginator = $this->getPaginator($iPage, $sDbSort);
-
-	// set view
-		$this->view->assign('oPaginator', $oPaginator);
-		$this->view->assign('aParams', array(
-			'page'	=> $iPage == 1 ? null : $iPage,
-			'sort'	=> empty($sSort) ? null : $sSort
-		));
-		$this->view->assign('sAction', 'list');
-		$this->view->assign('aUsedSort', $aUsedSort);
-	}
-
-	/**
-	 * Adds item to db
-	 */
-	public function addAction()
-	{
-		$this->_helper->viewRenderer('form');
-		$this->view->assign('bEdit', false);
-
-		if($this->_request->isPost())
-		{
-			$oFilter = $this->getFilter(false);
-
-			if($oFilter->isValid())
-			{
-				$aData = $oFilter->getEscaped();
-
-				$this->oFactory->create(
-					$aData['email'],
-					$aData['phone'],
-					$aData['city'],
-					$aData['address']
-				);
-
-				$this->addMessage('Item successful added', self::MSG_OK);
-				$this->_redirect($this->getUrl([], 'list'));
-				exit();
-			}
-
-			$this->addMessage('Correct wrong fields', self::MSG_ERROR);
-			$this->showFormMessages($oFilter);
-		}
-	}
-
-	/**
 	 * Edit item
 	 */
 	public function editAction()
 	{
 		$this->_helper->viewRenderer('form');
-		$this->view->assign('bEdit', true);
 
 		$oItem = $this->getItem();
 
@@ -126,8 +39,8 @@ class DetailsController extends Sca_Controller_Action
 				$oItem->setAddress($aData['address']);
 				$oItem->save();
 
-				$this->addMessage('Item successful changed', self::MSG_OK);
-				$this->_redirect($this->getUrl([], 'list'));
+				$this->addMessage('Details successful changed', self::MSG_OK);
+				$this->_redirect('/friends/list');
 				exit();
 			}
 
@@ -146,16 +59,21 @@ class DetailsController extends Sca_Controller_Action
 	}
 
 	/**
-	 * Delete item
+	 * @see \Sca\Controller\Action::getItem
 	 */
-	public function deleteAction()
+	protected function getItem()
 	{
-		$oItem = $this->getItem();
-		$oItem->delete();
+		try
+		{
+			$iId = $this->_request->getParam('id', 0);
+			$oItem = \Model\Friends\FriendFactory::getInstance()->getOne($iId);
+		}
+		catch(Exception $oExc)
+		{
+			$this->moveTo404();
+		}
 
-		$this->addMessage('Delete successful', self::MSG_OK);
-
-		$this->_redirect($this->getUrl([], 'list'));
+		return $oItem->getDetails();
 	}
 
 	/**
@@ -171,23 +89,23 @@ class DetailsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'email' => [
-				
+				new Zend_Validate_StringLength(['max' => 50]),
+				new Zend_Validate_EmailAddress(),
+				'allowEmpty' => true
 			],
 			'phone' => [
-				
+				new Zend_Validate_StringLength(['max' => 12]),
+				'allowEmpty' => true
 			],
 			'city' => [
-				
+				new Zend_Validate_StringLength(['max' => 80]),
+				'allowEmpty' => true
 			],
 			'address' => [
-				
+				new Zend_Validate_StringLength(['max' => 120]),
+				'allowEmpty' => true
 			]
 		];
-
-		if(!$bEdit) // if add
-		{
-
-		}
 
 		$aFitlers = [
 			'*' => 'StringTrim'

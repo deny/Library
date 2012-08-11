@@ -185,47 +185,4 @@ class BorrowsController extends Sca_Controller_Action
 
 		$this->_redirect($this->getUrl([], 'list'));
 	}
-
-	/**
-	 * Return filter
-	 *
-	 * @param	bool	$bEdit
-	 * @return	Zend_Filter_Input
-	 */
-	protected function getFilter($bEdit)
-	{
-		$aValues = $this->_request->getPost();
-
-    	// validators
-		$aValidators = [
-			'date' => [
-				new Zend_Validate_Date(['format' => 'Y-m-d'])
-			]
-		];
-
-		if(!$bEdit) // if add
-		{
-			$aValidators['friend'] = [
-				new Zend_Validate_Callback(function($iId) {
-
-					try
-					{
-						\Model\Friends\FriendFactory::getInstance()->getOne($iId);
-						return true;
-					}
-					catch(Exception $oExc) {
-						return false;
-					}
-
-				})
-			];
-		}
-
-		$aFitlers = [
-			'*' => 'StringTrim'
-		];
-
-		// filter
-		return new Zend_Filter_Input($aFitlers, $aValidators, $aValues);
-	}
 }

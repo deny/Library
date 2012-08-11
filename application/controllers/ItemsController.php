@@ -169,20 +169,25 @@ class ItemsController extends Sca_Controller_Action
     	// validators
 		$aValidators = [
 			'name' => [
-
+				new Zend_Validate_StringLength(['max' => 128])
 			],
 			'category' => [
-
+				new Zend_Validate_Callback(function($iVal) {
+					try
+					{
+						\Model\Items\CategoryFactory::getInstance()->getOne($iVal);
+						return true;
+					}
+					catch(Exception $oExc)
+					{
+						return false;
+					}
+				})
 			],
 			'description' => [
 
 			]
 		];
-
-		if(!$bEdit) // if add
-		{
-
-		}
 
 		$aFitlers = [
 			'*' => 'StringTrim'
