@@ -70,6 +70,59 @@ class BorrowsController extends Sca_Controller_Action
 	}
 
 	/**
+	 * Display items list
+	 */
+	public function friendListAction()
+	{
+		try
+		{
+			$iId = $this->_request->getParam('id', 0);
+			$oFriend = \Model\Friends\FriendFactory::getInstance()->getOne($iId);
+		}
+		catch(Exception $oExc)
+		{
+			$this->moveTo404();
+		}
+
+	// page number
+		$iPage = $this->_request->getParam('page', 1);
+		if($iPage < 1)
+		{
+			$this->moveTo404();
+		}
+
+	// sort
+		$sSort = $this->_request->getParam('sort');
+		$sDbSort = current($this->aAllowSort) . ' ASC';
+		$aUsedSort = array(0,0);
+		if(!empty($sSort))
+		{
+			$aSort = explode(':', $sSort);
+			if(count($aSort) == 2 && isset($this->aAllowSort[$aSort[0]]))
+			{
+				$sDbSort = $this->aAllowSort[$aSort[0]] . ($aSort[1] == 'desc' ? ' DESC' : ' ASC');
+				$aUsedSort = $aSort;
+			}
+		}
+
+	// get paginator
+		$oWhere = new \Sca\DataObject\Where('b_item = ?', $oFriend->getId());
+		$oWhere->addAnd('b_end IS NULL');
+
+		$oPaginator = $this->getPaginator($iPage, $sDbSort, ['item'], $oWhere);
+
+	// set view
+		$this->view->assign('oPaginator', $oPaginator);
+		$this->view->assign('aParams', array(
+			'page'	=> $iPage == 1 ? null : $iPage,
+			'sort'	=> empty($sSort) ? null : $sSort
+		));
+		$this->view->assign('sAction', 'list');
+		$this->view->assign('aUsedSort', $aUsedSort);
+		$this->view->assign('oFriend', $oFriend);
+	}
+
+	/**
 	 * Borrow item
 	 */
 	public function borrowAction()
@@ -184,5 +237,48 @@ class BorrowsController extends Sca_Controller_Action
 		$this->addMessage('Delete successful', self::MSG_OK);
 
 		$this->_redirect($this->getUrl([], 'list'));
+	}
+
+	/**
+	 * Return filter
+	 *
+	 * @param	bool	$bEdit
+	 * @return	Zend_Filter_Input
+	 */
+	protected function getFilter($bEdit)
+	{
+		$aValues = $this->_request->getPost();
+
+    	// validators
+		$aValidators = [
+			'date' => [
+				new Zend_Validate_Date(['format' => 'Y-m-d'])
+			]
+		];
+
+		if(!$bEdit) // if add
+		{
+			$aValidators['friend'] = [
+				new Zend_Validate_Callback(function($iId) {
+
+					try
+					{
+						\Model\Friends\FriendFactory::getInstance()->getOne($iId);
+						return true;
+					}
+					catch(Exception $oExc) {
+						return false;
+					}
+
+				})
+			];
+		}
+
+		$aFitlers = [
+			'*' => 'StringTrim'
+		];
+
+		// filter
+		return new Zend_Filter_Input($aFitlers, $aValidators, $aValues);
 	}
 }

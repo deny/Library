@@ -1,0 +1,31 @@
+<h2 class="webfont">
+	<a href="/friends/list">Borrows >> list >> <?php echo $this->oFriend->getFullName() ?></a>
+</h2>
+
+<table>
+	<thead>
+		<tr>
+			<td><?php echo $this->sortLink('id') ?></td>
+			<td><?php echo $this->sortLink('item') ?></td>
+			<td><?php echo $this->sortLink('start') ?></td>
+			<td>actions</td>
+		</tr>
+	</thead>
+	<tbody>
+
+<?php foreach($this->oPaginator as $oItem): ?>
+		<tr>
+			<td><?php echo $oItem->getId() ?></td>
+			<td><?php echo $oItem->getItem()->getName() ?></td>
+			<td><?php echo $oItem->getStart() === null ? '' : date('Y-m-d', $oItem->getStart()) ?></td>
+			<td>
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getId()], 'delete') ?>">del</a> |
+				<a href="<?php echo $this->getUrl(['id' => $oItem->getItemId()], 'return') ?>">return</a>
+			</td>
+		</tr>
+<?php endforeach; ?>
+
+	</tbody>
+</table>
+
+<?php echo $this->paginator($this->oPaginator);?>
